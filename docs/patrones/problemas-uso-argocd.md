@@ -179,7 +179,7 @@ basadas en Helm con valores para cada ambiente:
   **URL como  value**. Entonces podemos utilizar helm de la siguiente forma:
 
     ```sh
-    helm template demo-app-mikroways/demo-app -f https://bit.ly/3iql4Sx
+    helm template demo-app-mikroways/demo-app -f https://bit.ly/3CCoAQy
     ```
 
     Luego, podemos replicar esta misma idea en una aplicación de argo con el
@@ -201,7 +201,7 @@ basadas en Helm con valores para cada ambiente:
         targetRevision: 0.1.*
         helm:
           valueFiles:
-          - https://bit.ly/3iql4Sx
+          - https://bit.ly/3CCoAQy
     ```
     
     Esta opción no sería una mala solución porque nos permite mantener los
