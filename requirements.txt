@@ -1,0 +1,3 @@
+mkdocs==1.4.*
+mkdocs-material==9.*
+pygments==2.14.*

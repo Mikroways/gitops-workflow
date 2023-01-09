@@ -1,0 +1,20 @@
+site_name: Marco de trabajo con GitOps
+theme:
+  name: material
+  locale: es
+  language: es
+extra_css:
+  - css/mikroways.css
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      use_pygments: true
+      anchor_linenums: true
+      auto_title: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+nav:
+  - Objetivo: index.md
+  - Patrones y antipatrones:
+    - patrones/index.md
+    - patrones/problemas-uso-argocd.md
