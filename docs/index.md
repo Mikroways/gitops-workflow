@@ -5,9 +5,12 @@ con el fin de unificar la forma en que se implementa **GitOps** en el despliegue
 de aplicaciones en uno o varios clusters de [kubernetes](https://kubernetes.io/).
 
 El propósito detrás del marco de trabajo no es el de imponer un único modo de
-trabajo, sino el de identificar una serie de patrones y anti patrones que
-recurrentemente aparecen en escenarios diferentes por las propias necesidades
-de empresas u organismos con necesidades diversas.
+trabajo, sino el de identificar una serie de [(anti) patrones](./patrones) que
+aparecen recurrentemente en escenarios diferentes.
+
+A su vez, proponemos por medio de [ejemplos](https://github.com/mikroways/argo-gitops-demo-example),
+qué configuraciones y cómo aplicar aquellas prácticas descriptas en este
+marco, permitiendo replicar una implementación pura de GitOps de forma segura.
 
 ## Qué es GitOps
 
@@ -44,48 +47,63 @@ la propia empresa u organismo.
     este marco de trabajo para instalar servicios como ingress controllers,
     operadores de kubernetes, etc.
 
-Estas aplicaciones, en el mejor de los casos se desarrollarán tratando de
-aplicar los [12 factores](https://12factor.net/). Pero las aplicaciones
-modernas, ya no constan de un único despliegue, sino de múltiples: uno para cada
-aplicación. Por ejemplo, hoy día es muy común tener aplicaciones frontend de tipo
-[SPA](https://en.wikipedia.org/wiki/Single-page_application) que consumen un 
-backend, posiblemente desarrollado por el mismo equipo u otro equipo de
-desarrolladores dentro del orgnismo.
+Estas aplicaciones, en el mejor de los casos se desarrollan aplicando los [12 factores](https://12factor.net/).
+Pero las aplicaciones modernas, ya no constan de un único despliegue, porque no
+ya no son monolíticas sino que constan de varios servicios. Podemos dar como
+ejemplo arquitecturas de microservicios o simplemente las típicas aplicaciones
+frontend de tipo [SPA](https://en.wikipedia.org/wiki/Single-page_application)
+que consumen una o más APIs desde uno o varios backends. Ambas componentes
+(frontend y backend) posiblemente sean desarrolladas por el mismo equipo, aunque
+podría no ser el caso.
 
 Entonces cuando hagamos referencia a un despliegue con GitOps, probablemente
-estemos desplegando una, dos o varias aplicaciones más (como es el caso de los
-microservicios).
+estemos cnosiderando varias aplicaciones, como es el caso de los
+microservicios, aplicaciones SPA, o varias componentes que cooperan de alguna
+forma.
+
+Con estas precondiciones, el alcance de este marco corresponde al despliegue de
+ambientes usando GitOps, donde este despliegue considera varias componentes que
+hacen funcional a la infraestructura de ese ambiente.
 
 ## ¿Cómo implementar el marco de trabajo?
 
 Las posibilidades de implementar GitOps en kubernetes son varias. Sin embargo,
 hay productos que se han afianzado más que otros, y este hecho puede ser
-fácilmente visible al observar [los proyectos graduados de la
+fácilmente visible observando [los proyectos graduados de la
 CNCF](https://landscape.cncf.io/card-mode?project=graduated). Si bien con el
 pasar del tiempo, podremos extender el presente documento a nuevas herramientas,
 actualmente comenzaremos por acotar el mismo a las siguientes:
 
 * **[ArgoCD](https://argo-cd.readthedocs.io/en/stable/):** utilizaremos
-  aplicaciones, proyectos y applicationsets para el despliegue continuo las
-  aplicaicones.
+  [aplicaciones](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications),
+  [proyectos](https://argo-cd.readthedocs.io/en/stable/user-guide/projects/)
+  y [applicationsets](https://argocd-applicationset.readthedocs.io/en/stable/)
+  para el despliegue continuo.
 * **[Helm charts](https://helm.sh/):** como empaquetador templatizado de cada
   aplicación.
 * **[Helm Secrets](https://github.com/jkroepke/helm-secrets):** un plugin de
   helm que nos permitirá cifrar valores sensibles usando [sops](https://github.com/mozilla/sops).
 
-La idea del marco, es la de extender estas herramientas a otros (anti) patrones
-que se detecten y documentar qué solución orfecemos a cada caso.
+El marco de trabajo no explicará como usar las herramientas dado que cada una
+tiene una documentación clara y con ejemplos propios. Nuestro aporte es el de
+ejemplificar cómo es la integración de ellas, como así también la de enunciar 
+(anti) patrones detectados y documentar qué solución ofrecemos en cada caso.
 
 ## ¿Qué ofrece el marco de trabajo con GitOps?
 
 * Describe (anti) patrones con cada herramienta utilizada.
-* Desarrollado considerando escenarios muy diferentes y aplicado en clientes con
-  estructuras distintas.
-* Identifica y describe cómo implementar distintas etapas del proceso de
-  despliegue de aplicaciones:
-    * Armado de ambientes de forma declarativa.
-    * Creación de un proyecto en ArgoCD acotando los permisos usando
-    [RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
-    * Despliegue de un conjunto de requerimientos usando GitOps.
-    * Despliegue de aplicaciones usando GitOps.
+* Contempla escenarios muy diferentes, habiendo sido aplicado en clientes con
+  estructuras  y necesidades distintas.
+* Permite identificar y describir cómo implementar distintas etapas del proceso
+  de despliegue, como por ejemplO:
+    * Crear ambientes de forma declarativa.
+    * Crear un proyecto en ArgoCD exclusivo para el ambiente donde se acotan los
+      permisos usando [RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
+    * Considerar el despliegue de aquellas componentes que se consideran
+      requerimientos para nuestro ambiente usando GitOps. Esto significa, poder
+      disponer de una serie de componentes listos para que nuestro ambiente
+      utilice al momento de desplegar sus componentes.
+    * Despliegue de aplicaciones usando GitOps. Este despliegue considera las
+      componentes propias de nuestro despliegue, asumiendo existen y se cumplen
+      los requisitos que eventualmente son necesasios.
 * Soporte de Multicluster.

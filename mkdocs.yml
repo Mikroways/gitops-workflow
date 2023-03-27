@@ -17,4 +17,8 @@ nav:
   - Objetivo: index.md
   - Patrones y antipatrones:
     - patrones/index.md
-    - patrones/problemas-uso-argocd.md
+    - ArgoCD:
+      - patrones/argocd/index.md
+      - patrones/argocd/ui.md
+      - patrones/argocd/acceso-de-usuarios.md
+      - patrones/argocd/versionado-valores.md

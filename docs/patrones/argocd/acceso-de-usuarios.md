@@ -1,0 +1,95 @@
+# Acceso restringido
+
+## Autenticación de usuarios
+
+Al instalar ArgoCD pocas veces se configura su autenticación con un [Proveedor
+de Indentidad](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sso)
+a través de [OpenID Connect (OIDC)](https://openid.net/connect/).
+
+!!! info
+    ArgoCD ofrece varias formas de integrar con proveedores de identidad, incluso
+    usando productos que simplifican la autenticación con LDAP o Active Directory
+    como es el caso de [dex](https://dexidp.io/) o [keycloak](https://www.keycloak.org/).
+
+Al no tener un proveedor de identidad, en general utilizamos ArgoCD con el
+usuario administrador. **Usar el usuario admin es un antipatrón**, similar
+al de utilizar la cuenta root en un sistema Linux.
+
+Al integrar ArgoCD con un proveedor de identidad, será posible [mapear grupos
+del proveedor de identidad con roles de ArgoCD](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
+Los roles agrupan permisos para desarrollar determinadas acciones, pudiendo así
+aplicar RBAC (Role Based Access Control). El mayor provecho que podemos obtener
+de un proveedor de identidad para Argo CD, es cuando compartimos los grupos con 
+la plataforma de versionado de fuentes. De esta forma podemos crear una
+correlación de roles entre la plataforma de versionado de código y ArgoCD
+ahorrando tareas de IT para la gestión de accesos.
+
+!!! info
+    [GitLab](https://gitlab.com/) posee una excelente [integración con
+    dex](https://dexidp.io/docs/connectors/gitlab/). Lo mismo sucede con
+    [GitHub](https://dexidp.io/docs/connectors/github/). En ambos casos, es
+    posible reusar permisos de acceso al repositorio (o grupo de repositorios)
+    de una aplicación para definir cómo sus miembros pueden interactuar con
+    ArgoCD, sin tener que replicar configuraciones de acceso tanto en la
+    plataforma de versionado como en ArgoCD.
+
+Una vez definida la integración de ArgoCD con un proveedor de identidad, se
+deben mapear los grupos a roles, considerando al menos roles específicos para:
+
+* **Administrador:** super administrador como el configurado por el instalador
+  de ArgoCD, sólo que aquí en vez de ser un único usuario, la idea es que un
+  grupo de usuarios tenga este perfil. Si bien usar un rol de administrador no
+  es una buena práctica, es necesario disponer de tal rol para determinadas
+  acciones de gestión.
+* Además, para cada despliegue de producto en un ambiente, **_proponemos_** los
+  siguientes roles:
+    * **Administrador de ambiente:** puede gestionar recursos del ambiente o
+      crear manualmente aplicaciones desde la UI en un namespace de kubernetes.
+      Además, el rol puede [acceder a los contenedores a través de la consola
+      web](https://argo-cd.readthedocs.io/en/stable/operator-manual/web_based_terminal/)
+      y ver sus logs.
+    * **Usuarios de sólo lectura de un ambiente:** únicamente puede viualizar
+      todos los recursos de un ambiente, así como además los logs de los
+      contenedores en el namespace.
+
+Con esta separación de roles tendremos entonces por un lado los super
+administradores y por otro lado tantos roles de administrador de ambiente y sólo
+lectura, como ambientes de producto. Es interesante analizar la separación de
+responsabilidades que proponemos, dado que de esta forma es posible dar acceso a
+usuarios no experimentados en kubernetes, a visualizar cómo interactúan los
+objetos y analizar los logs de cada contenedor.
+
+
+## ¿Es necesario el acceso a kuberntes usando kubectl?
+
+Todo lo mencionado en las secciones previas aplica únicamente a ArgoCD, y será
+este producto el que termina en definitiva interactuando en nombre nuestro
+con kubernetes.
+
+Sin embargo, esto nada tiene que ver con el uso de kubernetes por parte de los
+usuarios finales. El apiserver de kubernetes, también permite su integración con
+[proveedores de identidad](https://github.com/dexidp/dex/issues/787), y luego por
+medio de RBACs podemos acotar qué puede hacer cada grupo.
+
+Ahora bien, la incógnita que se nos presenta, es si el acceso al apiserver de un
+cluster kubernetes a través de kubectl es algo que vamos a ofrecer a los usuarios
+finales o no. Esta decisión dependerá de factores específicos de cada
+organización.
+
+ArgoCD ofrece un acceso centralizado, con un idioma gráfico que simplifica
+la interacción y visualización a usuarios no experimentados con kubernetes. Por 
+ejemplo, desde ArgoCD podemos:
+
+* Ver el estado de sincronización de una aplicación y sus manifiestos
+* Ver los manifiestos en vivo que están corriendo en el cluster, como las
+  diferencias que se aplicarían.
+* Ver los logs de cada contenedor en un POD
+* Acceder a la consola de un contenedor de un POD
+
+Además, ArgoCD permite limitar la visibilidad y accesos de cada usuario a través
+de los proyectos de ArgoCD y [RBAC propias de Argo](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
+
+Para casos más complejos como realizar el debug de un contenedor, ArgoCD no
+es suficiente. Por ello, no es que proponemos evitar la integración del
+apiserver con OIDC, sino simplemente tener presente las diferentes posibilidades
+de interacción con los clusters kubernetes.
