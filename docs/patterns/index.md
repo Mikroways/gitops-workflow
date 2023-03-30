@@ -12,6 +12,6 @@ Según las herramientas descriptas en el [objetivo](../index.md),
 identificamos problemas habituales con:
 
 * [El uso de ArgoCD.](./argocd)
-* Uso del Helm y armado de Helm Charts.
-* Asegurar los datos sensibles.
-* Armado de ambientes.
+* [Uso del Helm y armado de Helm Charts.](./helm)
+* [Asegurar los datos sensibles.](./secrets)
+* [Armado de ambientes.](./environment)

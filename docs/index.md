@@ -1,11 +1,11 @@
-# Objetivo
+# Introducción
 
-Este marco de trabajo fue desarrollado por [Mikroways](https://mikroways.net)
+Este [marco de trabajo](./framework) fue desarrollado por [Mikroways](https://mikroways.net)
 con el fin de unificar la forma en que se implementa **GitOps** en el despliegue
 de aplicaciones en uno o varios clusters de [kubernetes](https://kubernetes.io/).
 
 El propósito detrás del marco de trabajo no es el de imponer un único modo de
-trabajo, sino el de identificar una serie de [(anti) patrones](./patrones) que
+trabajo, sino el de identificar una serie de [(anti) patrones](./patterns) que
 aparecen recurrentemente en escenarios diferentes.
 
 A su vez, proponemos por medio de [ejemplos](https://github.com/mikroways/argo-gitops-demo-example),

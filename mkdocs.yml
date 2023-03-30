@@ -14,11 +14,23 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.inlinehilite
 nav:
-  - Objetivo: index.md
+  - index.md
   - Patrones y antipatrones:
-    - patrones/index.md
+    - patterns/index.md
     - ArgoCD:
-      - patrones/argocd/index.md
-      - patrones/argocd/ui.md
-      - patrones/argocd/acceso-de-usuarios.md
-      - patrones/argocd/versionado-valores.md
+      - patterns/argocd/index.md
+      - patterns/argocd/ui.md
+      - patterns/argocd/acceso-de-usuarios.md
+      - patterns/argocd/versionado-valores.md
+    - Helm:
+      - patterns/helm/index.md
+      - patterns/helm/chart-vs-charts.md
+      - patterns/helm/schema-migrations.md
+      - patterns/helm/requirements.md
+    - patterns/secrets/index.md
+    - patterns/environment/index.md
+  - El marco de trabajo:
+    - framework/index.md
+    - framework/prerequisites.md
+    - framework/git-repositories.md
+    - framework/workflow.md
