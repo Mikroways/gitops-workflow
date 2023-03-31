@@ -22,7 +22,10 @@ GitOps](https://www.weave.works/blog/the-history-of-gitops).
 Lo que podemos afirmar acerca de GitOps es:
 
 * Se utiliza Git como fuente de verdad principal de lo que se aplica en la
-  infraestructura.
+  infraestructura. Esto significa que toda la infraestructura puede ser
+  versionada, auditada y fácilmente revertida si es necesario, garantizando
+  implementaciones consistentes y reproducibles. Permite ágil recuperación ante
+  errores. Se versiona la configuración y estado de la infraestructura canónica.
 * La evolución de las plataformas de Git y su integración con pipelines que
   permiten ejecutar acciones arbitrarias, extienden las posibilidades de aplicar
   GitOps a varios escenarios. Por ejemplo, utilizar infraestructura como código
@@ -48,7 +51,7 @@ la propia empresa u organismo.
     operadores de kubernetes, etc.
 
 Estas aplicaciones, en el mejor de los casos se desarrollan aplicando los [12 factores](https://12factor.net/).
-Pero las aplicaciones modernas, ya no constan de un único despliegue, porque no
+Pero las aplicaciones modernas, ya no constan de un único despliegue, porque
 ya no son monolíticas sino que constan de varios servicios. Podemos dar como
 ejemplo arquitecturas de microservicios o simplemente las típicas aplicaciones
 frontend de tipo [SPA](https://en.wikipedia.org/wiki/Single-page_application)
@@ -57,7 +60,7 @@ que consumen una o más APIs desde uno o varios backends. Ambas componentes
 podría no ser el caso.
 
 Entonces cuando hagamos referencia a un despliegue con GitOps, probablemente
-estemos cnosiderando varias aplicaciones, como es el caso de los
+estemos considerando varias aplicaciones, como es el caso de los
 microservicios, aplicaciones SPA, o varias componentes que cooperan de alguna
 forma.
 
@@ -95,7 +98,7 @@ ejemplificar cómo es la integración de ellas, como así también la de enuncia
 * Contempla escenarios muy diferentes, habiendo sido aplicado en clientes con
   estructuras  y necesidades distintas.
 * Permite identificar y describir cómo implementar distintas etapas del proceso
-  de despliegue, como por ejemplO:
+  de despliegue, como por ejemplo:
     * Crear ambientes de forma declarativa.
     * Crear un proyecto en ArgoCD exclusivo para el ambiente donde se acotan los
       permisos usando [RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
