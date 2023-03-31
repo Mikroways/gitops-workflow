@@ -23,7 +23,7 @@ chart. Debe existir un **momento previo donde desplegar los requerimientos**.
 Con las herramientas consideradas por este marco de trabajo, no hay un patrón
 que podamos recomendar, porque ninguna nos permite establecer prioridades u
 orden de los despliegues. Así es como en **este marco proponemos una [solución
-basada en una serie de charts]() que resuelven los requerimientos propios de un
+basada en una serie de charts](https://github.com/Mikroways/argo-gitops-flow) que resuelven los requerimientos propios de un
 despliegue basado en GitOps**.
 
 Además del ejemplo de la base de datos, muchas veces aparecen varios
