@@ -5,8 +5,11 @@ theme:
   language: es
 extra_css:
   - css/mikroways.css
+plugins:
+  - glightbox
 markdown_extensions:
   - admonition
+  - attr_list
   - pymdownx.highlight:
       use_pygments: true
       anchor_linenums: true

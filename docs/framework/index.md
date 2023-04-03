@@ -2,11 +2,11 @@
 
 En base a los [(anti) patrones](./patterns) mencionados en la sección previa,
 creamos esta propuesta de trabajo que hemos denominado **marco de trabajo con
-GitOps** con el propósito de simplificar y fomentar la aplicación de buenas
-prácticas. El resultado de aplicarlo ofrece **despliegue continuo** y el
-**armado de ambientes para los despliegues** considerando:
+GitOps** con el propósito de simplificar la adopción de buenas prácticas. El
+resultado de aplicar este marco permitirá el **despliegue continuo** de
+aplicaciones en **ambientes también creados utilizando GitOps**, considerando:
 
-* Ambientes en clusters diferentes.
+* Despliegues en clusters diferentes.
 * Acotar los recursos asignados a cada ambiente utilizando ResourceQuotas y
   LimitRange.
 * Definición opcional de NetworkPolicies.
