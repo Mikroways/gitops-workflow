@@ -146,7 +146,7 @@ repositorio, es importante tomar conocimiento de los charts que dan vida al
 flujo:
 
 * [mikroways/argo-project](https://github.com/Mikroways/argo-gitops-flow/tree/main/charts/argo-project)
-* [mikroways/argo-ibase-app](https://github.com/Mikroways/argo-gitops-flow/tree/main/charts/argo-base-app)
+* [mikroways/argo-base-app](https://github.com/Mikroways/argo-gitops-flow/tree/main/charts/argo-base-app)
 
 Luego, las aplicaciones que se desplegarán mostrarán una serie de escenarios que
 se apoyan en [otro repositorio también
