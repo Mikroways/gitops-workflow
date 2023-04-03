@@ -1,12 +1,15 @@
 site_name: Marco de trabajo con GitOps
 theme:
   name: material
-  locale: es
   language: es
 extra_css:
   - css/mikroways.css
 plugins:
   - glightbox
+  - i18n:
+      default_language: es
+      languages:
+        es: Español
 markdown_extensions:
   - admonition
   - attr_list
