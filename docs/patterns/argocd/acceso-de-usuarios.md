@@ -60,7 +60,7 @@ usuarios no experimentados en kubernetes, a visualizar cómo interactúan los
 objetos y analizar los logs de cada contenedor.
 
 
-## ¿Es necesario el acceso a kuberntes usando kubectl?
+## ¿Es necesario el acceso a kubernetes usando kubectl?
 
 Todo lo mencionado en las secciones previas aplica únicamente a ArgoCD, y será
 este producto el que termina en definitiva interactuando en nombre nuestro
