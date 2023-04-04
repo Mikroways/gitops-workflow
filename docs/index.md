@@ -44,29 +44,31 @@ actual procedimiento, al despliegue de aplicaciones que son desarrolladas por
 la propia empresa u organismo.
 
 !!! warning
-    El presente documento, debe considerar el despliegue de cargas de trabajo en
+    El presente documento, debe considerar el despliegue de aplicaciones en
     un cluster, y no ser considerado para el despliegue de servicios esenciales
     dentro de un cluster de Kubernetes. Por ejemplo, no consideramos aplicable
     este marco de trabajo para instalar servicios como ingress controllers,
     operadores de kubernetes, etc.
 
-Estas aplicaciones, en el mejor de los casos se desarrollan aplicando los [12 factores](https://12factor.net/).
-Pero las aplicaciones modernas, ya no constan de un único despliegue, porque
-ya no son monolíticas sino que constan de varios servicios. Podemos dar como
-ejemplo arquitecturas de microservicios o simplemente las típicas aplicaciones
-frontend de tipo [SPA](https://en.wikipedia.org/wiki/Single-page_application)
-que consumen una o más APIs desde uno o varios backends. Ambas componentes
-(frontend y backend) posiblemente sean desarrolladas por el mismo equipo, aunque
-podría no ser el caso.
+Estas aplicaciones, en el mejor de los casos se desarrollan aplicando los [12
+factores](https://12factor.net/). Pero las aplicaciones modernas, en la mayoría
+de los casos ya no constan de un único despliegue, es decir, no son monolíticas,
+sino que se componen de varios servicios. Podemos dar como ejemplo arquitecturas
+de microservicios o las típicas aplicaciones frontend de tipo
+[SPA](https://en.wikipedia.org/wiki/Single-page_application) o
+[PWA](https://en.wikipedia.org/wiki/Progressive_web_app) que consumen una o más
+APIs desde uno o varios backends. Los componentes de frontend y backend pueden
+ser desarrolladas por el mismo equipo, aunque no siempre es el caso. Este tipo
+de aplicaciones suele ser ideal para un despliege en kubernetes.
 
 Entonces cuando hagamos referencia a un despliegue con GitOps, probablemente
-estemos considerando varias aplicaciones, como es el caso de los
-microservicios, aplicaciones SPA, o varias componentes que cooperan de alguna
-forma.
+estemos considerando varias aplicaciones, como es el caso de los microservicios,
+aplicaciones SPA, o varias componentes que cooperan de alguna forma.
 
 Con estas precondiciones, el alcance de este marco corresponde al despliegue de
-ambientes usando GitOps, donde este despliegue considera varias componentes que
-hacen funcional a la infraestructura de ese ambiente.
+ambientes usando GitOps sobre kubernetes, donde este despliegue considera que
+haya varias componentes que hacen funcional a la infraestructura de ese
+ambiente.
 
 ## ¿Cómo implementar el marco de trabajo?
 
@@ -82,31 +84,33 @@ actualmente comenzaremos por acotar el mismo a las siguientes:
   [proyectos](https://argo-cd.readthedocs.io/en/stable/user-guide/projects/)
   y [applicationsets](https://argocd-applicationset.readthedocs.io/en/stable/)
   para el despliegue continuo.
-* **[Helm charts](https://helm.sh/):** como empaquetador templatizado de cada
-  aplicación.
+* **[Helm charts](https://helm.sh/):** como una forma estandarizada de
+  empaquetar y desplegar aplicaciones usando plantillas personalizables.
+Simplifican el proceso de despliegue de aplicaciones complejas.
 * **[Helm Secrets](https://github.com/jkroepke/helm-secrets):** un plugin de
-  helm que nos permitirá cifrar valores sensibles usando [sops](https://github.com/mozilla/sops).
+  helm que nos permitirá cifrar valores sensibles usando la herramienta [sops](https://github.com/mozilla/sops).
 
 El marco de trabajo no explicará como usar las herramientas dado que cada una
 tiene una documentación clara y con ejemplos propios. Nuestro aporte es el de
 ejemplificar cómo es la integración de ellas, como así también la de enunciar 
-(anti) patrones detectados y documentar qué solución ofrecemos en cada caso.
+[(anti) patrones](./patterns) detectados y documentar qué solución ofrecemos en cada caso.
 
 ## ¿Qué ofrece el marco de trabajo con GitOps?
 
-* Describe (anti) patrones con cada herramienta utilizada.
-* Contempla escenarios muy diferentes, habiendo sido aplicado en clientes con
-  estructuras  y necesidades distintas.
-* Permite identificar y describir cómo implementar distintas etapas del proceso
-  de despliegue, como por ejemplo:
+* Describe (anti) patrones en relación a cada herramienta utilizada.
+* Contempla escenarios muy diferentes, ya que hemos tenido experiencia aplicando
+  estos conceptos con proyectos de clientes con estructuras y necesidades muy
+distintas.
+* Permite identificar como implementar, con ejemplos, distintas etapas del
+  proceso de despliegue, como por ejemplo:
     * Crear ambientes de forma declarativa.
     * Crear un proyecto en ArgoCD exclusivo para el ambiente donde se acotan los
       permisos usando [RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
     * Considerar el despliegue de aquellas componentes que se consideran
-      requerimientos para nuestro ambiente usando GitOps. Esto significa, poder
-      disponer de una serie de componentes listos para que nuestro ambiente
+      requerimientos para nuestro ambiente, usando herramientas de GitOps. Esto significa, poder
+      disponer de una serie de componentes listos para que nuestro ambiente los
       utilice al momento de desplegar sus componentes.
-    * Despliegue de aplicaciones usando GitOps. Este despliegue considera las
-      componentes propias de nuestro despliegue, asumiendo existen y se cumplen
+    * El despliegue de aplicaciones usando GitOps, considerando las
+      componentes propias del mismo, asumiendo que existen y se cumplen
       los requisitos que eventualmente son necesasios.
 * Soporte de Multicluster.
