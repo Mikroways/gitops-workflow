@@ -6,7 +6,7 @@ aplicaciones a ser desplegadas cumplan la mayoría de los siguientes puntos:
 * Apliquen en gran parte los [12 factores](https://12factor.net/).
 * El código de cada aplicación debe versionarse en un repositorio Git, y junto al
   código debe proveerse un Helm Chart considerando los [patrones para el
-  desarrollo de Helm Charts](/patterns/helm/).
+  desarrollo de Helm Charts](../../patterns/helm/).
 * Utilizar CI/CD que automaticen la publicación de:
     * Imágenes de contenedores en una registry OCI
     * Helm Chart en un repositorio de Charts o una registry OCI, considerando
