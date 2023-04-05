@@ -16,7 +16,7 @@ algunas restricciones o consideraciones que no deben obviarse:
 
 * Al avanzar una versión de producto, es posible que sea necesario aplicar un
   parche a la base de datos. Entonces debemos considerar que si trabajamos en
-  kuberntes, ese despliegue puede tener una escala mayor a 1 y una estrategia de
+  kuberentes, ese despliegue puede tener una escala mayor a 1 y una estrategia de
   [rolling update](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy),
   por lo que podrían darse las siguientes situaciones:
   * Durante el upgrade, algunos pods usarán la nueva versión y otros la vieja.

@@ -1,6 +1,6 @@
 # Objetivo
 
-En base a los [(anti) patrones](./patterns) mencionados en la sección previa,
+En base a los [(anti) patrones](../patterns) mencionados en la sección previa,
 creamos esta propuesta de trabajo que hemos denominado **marco de trabajo con
 GitOps** con el propósito de simplificar la adopción de buenas prácticas. El
 resultado de aplicar este marco permitirá el **despliegue continuo** de
