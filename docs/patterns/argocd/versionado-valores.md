@@ -4,68 +4,71 @@
 ## ¿Cómo versionar los valores de una aplicación en diferentes ambientes?
 
 La gran incógnita que surge con el uso de ArgoCD, es sobre cómo
-pueden manejarse los valores de cada ambiente de forma independiente. La idea
+se pueden manejar los valores de cada ambiente de forma independiente. La idea
 es mantener los manifiestos similares para los diferentes ambientes, salvo por
 las configuraciones específicas de cada uno de ellos. Claro está que
 deseamos aplicar el [décimo punto de los 12 factores](https://12factor.net/dev-prod-parity),
-de igualdad entre ambientes. Por ello, la elección de la herramienta de
-despliegue, debe permitirnos reutilizar código de base y especificar las
-particularidades de cada ambiente.
+de igualdad entre ambientes. Para esto, la elección de la herramienta de
+despliegue debe permitirnos reutilizar código de base y especificar las
+diferencias en cada ambiente. 
 
-Por su parte [Helm](https://helm.sh), se describe como un manejador de paquetes,
+En términos de facilitar el despliege de componentes, existen herramientas que
+nos permiten simplificar y automatizar este proceso, como Helm y Kustomize.
+Por su parte [Helm](https://helm.sh) se describe como un manejador de paquetes,
 pero funciona como un lenguaje de templating, reemplazando valores parametrizables.
-Por otro lado, [kustomize](https://kustomize.io/) se define como un manejador de
+Por otro lado, existe [kustomize](https://kustomize.io/), que se define como un manejador de
 configuraciones libre de templates, donde las mismas se aplican a través del
-agregado, modificación o eliminación de código. En este apartado,
-expondremos las posibilidades de integración con ArgoCD.
+agregado, modificación o eliminación de código. 
+En este apartado analizamos las posibilidades de la integración de Helm con
+ArgoCD como paso integral en el flujo de Gitops.
 
 ## ArgoCD y Helm
 
 La integración de ArgoCD con Helm es trivial. La complejidad aparece cuando se
-necesita usar un chart con _valores propios de un ambiente_. Un chart provee un
+necesita usar un chart con _valores propios para un ambiente_. Un chart provee un
 conjunto de valores por defecto, pero _**no sería correcto** tener valores para
-cada ambiente como parte del chart en sí_.
+cada ambiente como parte del chart_.
 
 Un chart empaqueta una o varias componentes que hacen funcional una aplicación.
 Por ello, los charts simplifican el despliegue de componentes en un ambiente.
 Analizando el concepto de ambiente y despliegue en relación al chart,
 debemos aclarar que un despliegue de un chart no solamente representa un
-ambiente, sino que además puede representar diferentes tenants. Por ejemplo, el
+ambiente, sino que además puede representar diferentes tenants o dueños. Por ejemplo, el
 chart de wordpress puede representar el sitio de la empresa Acme, y tener tres
 ambientes: producción, QA y testing. Además, ese mismo chart puede usarse para
 desplegar el sitio de la empresa Ejemplo, y tener dos ambientes: producción y
-testing.
+testing. Y así, ad infinitum.
 
 En definitiva, el propósito de un chart es el de reutilizar código a través de la
-inyección de valores, hidratando manifiestos que dan identidad a un
-tenant y ambiente en particular. Por lo tanto, el chart a hidratar debe ser lo
+inyección de valores, hidratando manifiestos con valores que dan identidad a un
+tenant y ambiente en particular. Por lo tanto, el chart debe ser lo
 más genérico y parametrizable posible. Para ello, recomendamos seguir las
 [buenas prácticas](https://helm.sh/docs/chart_best_practices/) sugeridas por
-Helm. Nosotros realzamos los siguientes puntos, en favor del flujo de GitOps:
+Helm. Nosotros realizamos los siguientes puntos, en favor del flujo de GitOps:
 
-* Los fuentes del chart es deseable que se **alojen junto con los fuentes de
-  la aplicación**. Al igual que la imagen OCI es generada a partir de los
-  fuentes en un repositorio, los charts deben seguir un flujo similar que
-  evolucione con las versiones de producto.
+* Los fuentes del chart es deseable que se **alojen junto con los fuentes de la
+  aplicación**. Al igual que la OCI (imagen de contenedor), que es generada a partir
+  de fuentes en un repositorio, los charts de la aplicación deben seguir un flujo
+  similar que evolucione con las versiones de producto.
 * Se recomienda que los charts sigan un esquema de **versionado semántico
   independiente del versionado de producto**. Helm documenta muy bien cómo
   [versionar semánticamente](https://helm.sh/docs/topics/charts/#charts-and-versioning).
 * Es deseable disponibilizar los charts en un repositorio de charts o una
-  registry OCI. Sea público o privado, el artefacto luego será consumido
+  registry OCI. Sea este público o privado, el artefacto luego será consumido
   utilizando una **referencia al nombre y versión del chart**.
 
-Ahora bien, tenemos entonces un chart en un repositorio de charts, con un
-conjunto de valores por defecto. La incógnita aquí, es como integrar este chart
-en ArgoCD sin caer en el ya enunciado [antipatrón de usar la
+Ahora bien, tenemos entonces un chart en un registry, con un conjunto de valores
+definidos por defecto. La incógnita aquí, es como trabajar con este chart e
+integrarlo con ArgoCD sin caer en el ya enunciado [antipatrón de usar la
 UI](ui.md).
 
 Analizamos entonces qué opciones nos brinda ArgoCD para crear aplicaciones
-basadas en Helm con valores para cada ambiente:
+basadas en Helm, con valores diferenciados para cada ambiente:
 
-### Valores por ambiente en el los fuentes del chart
+### Valores por ambiente en los fuentes del chart
 
 Esta estrategia propone mantener en el mismo repositorio de los fuentes del
-chart, el valor para cada ambiente. Esto nos lleva a crear una aplicación
+chart el valor para cada ambiente. Esto nos lleva a crear una aplicación
 ArgoCD de tipo Helm, que apunte a un repositorio Git y un directorio donde están
 los fuentes del chart. Considerando que el mismo repositorio alberga en una
 carpeta determinada valores específicos para cada ambiente, podremos utilizar el
@@ -112,7 +115,8 @@ Por lo antes expuesto, consideramos esta estrategia como un **antipatrón**.
 
 ArgoCD respeta las opciones que helm admite al usarlo desde la interfaz de línea
 de comandos. Así es como [`helm install`](https://helm.sh/docs/helm/helm_install/)
-perrmite usar una **URL como  valor**. Entonces podemos utilizar helm de la
+perrmite usar una **URL como  valor**, siendo la URL un link a un archivo de
+valores para hidratar el chart. Entonces podemos utilizar helm de la
 siguiente forma:
 
 ```sh
@@ -151,13 +155,17 @@ respetando la filosofía GitOps. Por esto consideramos esta práctica como un
 
 ### Un repositorio por ambiente
 
-Aquí la idea radica en crear un repositorio para cada ambiente versionando
-entonces los **valores de un ambiente de forma independiente**.
+
+Aquí la idea radica en crear un repositorio para cada ambiente, de forma que
+**los valores de cada ambiente se versionen de forma independiente.**
+Esto facilita la gestión y el mantenimiento de las diferentes versiones de los
+valores utilizados en cada ambiente, permitiendo realizar cambios específicos en
+cada uno de ellos de manera independiente.
 
 !!! info
     A partir de la versión 2.6 de ArgoCD es posible utilizar [múltiples
     repositorios git](https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/#helm-value-files-from-external-git-repository)
-    para los valores, separnado entonces el chart de los valores usados para
+    para los valores, separnado entonces el chart, de los valores usados para
     desplegarlo.
 
 #### Versión de ArgoCD 2.6 o superior
@@ -165,6 +173,9 @@ entonces los **valores de un ambiente de forma independiente**.
 En este escenario, las aplicaciones ArgoCD ya implementan en su esencia una
 estrategia mas pura respecto de GitOps, dado que podemos fijar una versión de
 chart y utilizar diferentes repositorios git para hidratar sus manifiestos.
+De esta manera, se puede tener un repositorio para el chart de Helm y un
+repositorio separado para los valores de configuración de ambientes. 
+Esto permite una mayor flexibilidad y un mejor control de versiones.
 El siguiente ejemplo, muestra una aplicación de estas características:
 
 ```yaml
@@ -182,15 +193,17 @@ spec:
     targetRevision: dev
     ref: values
 ```
+Notar en el manifiesto, la `repoURL` con el archivo de valores versionado, y un
+`targetRevision` que hace referencia al ambiente 'dev'. El targetRevision puede
+referenciar una tag, una rama o un commit de Git.
 
-Esta práctica es una excelente práctica y por ello, la consideramos un **patrón
-de gitops**.
+Esta práctica es una excelente práctica y por ello, la consideramos un **patrón de gitops**.
 
 #### Versiones de ArgoCD previas a la 2.6
 
 !!! warning
     Si bien la estrategia aquí descripta funciona para versiones anteriores a
-    2.6, s práctica puede ser conveniente incluso en esta versión de ArgoCD.
+    2.6, la práctica puede ser conveniente incluso en esta versión de ArgoCD.
 
 En este caso, proponemos crear un repositorio git correspondiente al despliegue
 de un ambiente. Para ello, este respositorio debe albergar no sólo los valores
