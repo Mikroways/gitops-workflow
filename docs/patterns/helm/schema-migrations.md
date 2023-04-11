@@ -7,20 +7,21 @@ tanto, muy fácilmente reinstanciables en cualquier nodo del cluster.
 
 Cuando se desarrollan aplicaciones que dependen de un motor relacional, no
 debemos dejar de pensar en cómo es que se versionan los cambios que deben
-aplicarse a la base de datos, de forma de poder determinar qué parche debe estar
+aplicarse a la base de datos, por ejemplo, si hay que actualizar el producto, de que forma poder determinar qué parche debe estar
 aplicado en una versión de código determinada. Si bien el uso de [schema
 migrations](https://en.wikipedia.org/wiki/Schema_migration) es muy útil en
 ambientes de desarrollo, para poder avanzar o retroceder en el tiempo la
 estructura de una base de datos, en producción tiene sus beneficios a costa de
 algunas restricciones o consideraciones que no deben obviarse:
 
-* Al avanzar una versión de producto, es posible que sea necesario aplicar un
+Al avanzar una versión de producto, es posible que sea necesario aplicar un
   parche a la base de datos. Entonces debemos considerar que si trabajamos en
   kuberentes, ese despliegue puede tener una escala mayor a 1 y una estrategia de
   [rolling update](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy),
-  por lo que podrían darse las siguientes situaciones:
-  * Durante el upgrade, algunos pods usarán la nueva versión y otros la vieja.
-  * Varios pods nuevos podrían iniciar de forma simultánea.
+  por lo que podrían darse las siguientes situaciones que deberiamos considerar:
+  
+* Durante el upgrade, algunos pods usarán la nueva versión y otros la vieja.
+* Varios pods nuevos podrían iniciar de forma simultánea.
 * Al degradar una versión de producto, la base de datos puede quedar con un
   parche aplicado que no debe interferir con las viejas versiones de pods.
 
