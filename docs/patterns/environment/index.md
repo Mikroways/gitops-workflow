@@ -1,6 +1,6 @@
 # Ambientes de despliegue
 
-El término ambiente recibe varias connotaciones, sobre todo en el ámbito deL
+El término ambiente recibe varias connotaciones, sobre todo en el ámbito del
 despliegue de aplicaciones. Por ello, queremos acotar su significado para
 nuestro marco de trabajo.
 
@@ -15,15 +15,16 @@ que un ambiente considerará:
     * Algunos charts desplegarán requerimientos que deben estar disponibles
       previo al despliegue de nuestras componentes.
 
-Pero entonces un ambiente, sigue siendo un conjunto de manifiestos y por tanto
+Pero entonces, un ambiente sigue siendo un conjunto de manifiestos, y por lo tanto
 **debería** poder ser descripto **declarativamente** y manipularse utilizando
-**GitOps**. Y es aquí donde aparece una separación de roles que creemos
-importante expresar:
+**GitOps**. Y es aquí donde aparece una separación de roles y sus respectivos
+accesos, que creemos
+importante expresar y considerar:
 
 * La creación de un nuevo ambiente es reponsabilidad de un rol diferencial.
   Seguramente sea el área de operaciones, pero no debe ser el mismo rol que
   podrá gestionar los despliegues del ambiente.
-   * Este rol además, en ambientes multicluster debe determinar en cuál de los
+   * Este rol además, en ambientes multicluster, debe determinar en cuál de los
      clusters se desplegará.
 * Los recursos asignados a un ambiente se discuten entre varios roles:
   operaciones, arquitectura, desarrollo y seguridad. Estos recursos deben
@@ -55,9 +56,9 @@ cluster:
   el despliegue.
 * [**Limit Ranges**](https://kubernetes.io/docs/concepts/policy/limit-range/):
   con esta política, aquellos contenedores que no establecen cuántos recursos
-  requieren o limitan, serán modificados al ser creados en un namespace
+  requieren o limitan en sus propios manifiestos, heredaran los limites establecidos en el namespace. Estos contenedores serán modificados al ser creados en el namespace
   asociándoles una cantidad establecida de requerimiento y límites de CPU y
-  memoria. Combinando Limit Ranges con Resource Quotas permiten establecer un
+  memoria. Al combinar Limit Ranges con Resource Quotas podemos establecer un
   equilibrio saludable para la ejecución de cargas de trabajo en cualquier
   cluster. Por esta razón consideramos esta política un **patrón recomendable**.
 
