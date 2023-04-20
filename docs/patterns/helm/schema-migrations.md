@@ -1,28 +1,35 @@
 # Migraciones de esquemas de Bases de Datos
 
-El plano de los datos en el mundo de contenedores siempre fue relegado al último
-plano. En un principio, esto fue porque las primeras cargas de trabajo que se
+Los datos han sido relegados a un segundo plano en el mundo de los contenedores,
+debido a que otros aspectos se han considerado más importantes en esta
+infraestructura.
+En un principio, esto fue porque las primeras cargas de trabajo que se
 desplegaban en clusters de contenedores eran aplicaciones sin estado y por
 tanto, muy fácilmente reinstanciables en cualquier nodo del cluster.
 
 Cuando se desarrollan aplicaciones que dependen de un motor relacional, no
 debemos dejar de pensar en cómo es que se versionan los cambios que deben
-aplicarse a la base de datos, de forma de poder determinar qué parche debe estar
-aplicado en una versión de código determinada. Si bien el uso de [schema
-migrations](https://en.wikipedia.org/wiki/Schema_migration) es muy útil en
-ambientes de desarrollo, para poder avanzar o retroceder en el tiempo la
-estructura de una base de datos, en producción tiene sus beneficios a costa de
-algunas restricciones o consideraciones que no deben obviarse:
+aplicarse a la base de datos. Esto nos permite determinar qué migración de la
+base de datos debe aplicarse en una versión específica del código. Si bien el
+uso de [schema migrations](https://en.wikipedia.org/wiki/Schema_migration) es
+muy útil en ambientes de desarrollo para poder avanzar o retroceder en el
+tiempo la estructura de una base de datos, en producción tiene sus beneficios a
+costa de algunas restricciones o consideraciones que no deben obviarse:
 
-* Al avanzar una versión de producto, es posible que sea necesario aplicar un
-  parche a la base de datos. Entonces debemos considerar que si trabajamos en
-  kuberentes, ese despliegue puede tener una escala mayor a 1 y una estrategia de
-  [rolling update](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy),
-  por lo que podrían darse las siguientes situaciones:
-  * Durante el upgrade, algunos pods usarán la nueva versión y otros la vieja.
-  * Varios pods nuevos podrían iniciar de forma simultánea.
-* Al degradar una versión de producto, la base de datos puede quedar con un
-  parche aplicado que no debe interferir con las viejas versiones de pods.
+* Al avanzar una versión de un producto, puede ser necesario aplicar un parche a
+  la base de datos. Si trabajamos en kuberentes, el despliegue puede tener una
+escala mayor a 1 y utilizar una estrategia de [rolling
+update](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy).
+Esto podría llevar a las siguientes situaciones:
+  * Durante el proceso de actualización, algunos pods ejecutarán la nueva
+    versión del software mientras que otros todavía utilizarán la versión
+anterior.
+  * Varios pods con la nueva versión podrían iniciarse simultáneamente,
+    y dependiendo de la implementación, puede que intenten correr las mismas
+ migraciones sobre la misma base de datos en simultaneo.
+* Por otro lado, al revertir a una versión anterior del producto, la base de
+  datos puede quedar con un parche aplicado que no debe interferir con las
+versiones anteriores de los pods en ejecución.
 
 De lo antes mencionado, vemos que los parches pueden utilizar migraciones que
 ofrecen los frameworks de desarrollo, pero incluso existiendo la herramienta,
@@ -35,6 +42,10 @@ debe considerarse de qué forma se aplicará la misma:
 * Los cambios siempre deben pensarse compatibles entre versiones inmediatas.
   Esto debe permitir el funcionamiento de nuevos modelos de datos con versiones
   inmediatamente anteriores y viceversa.
+* El uso de binary logs permite pensar en point in time recovery, al
+  registrar todas las operaciones realizadas en la base de datos en un formato
+binario, lo que facilita la replicación y recuperación de datos en caso de
+fallos.
 
 Con las premisas antes mencionadas, surge además el problema del momento y forma
 de aplicar las migraciones. Considerando que el despliegue podría estar
