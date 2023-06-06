@@ -1,9 +1,28 @@
 site_name: Marco de trabajo con GitOps
 theme:
+  logo: assets/logo.png
+  font:
+    text: Open Sans
+    code: Roboto Mono
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Modo oscuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Modo claro
   name: material
   language: es
 extra_css:
-  - css/mikroways.css
+  - stylesheets/mikroways.css
 plugins:
   - glightbox
   - i18n:

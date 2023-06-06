@@ -16,11 +16,11 @@ siguientes aspectos:
   identidad para limitar las acciones permitidas.
 * Configuración en ArgoCD de repositorios por proyecto, permitiendo el
   acceso a repositorios Git o Helm Charts privados.
-* Disponibilizar secretos con imagePullSecret dentro del namespace para 
+* Disponibilizar secretos con imagePullSecret dentro del namespace para
   simplificar el despliegue de contenedores que utilicen registries
   privadas.
-* Opción de desplegar los backing services (por ejemplo, bases de datos o servicios SMTP de email) antes al despliegue de la
-  aplicación en sí.
+* Opción de desplegar los backing services (por ejemplo, bases de datos o
+  servicios SMTP de email) antes al despliegue de la aplicación en sí.
 
-Además, se proporcionará un ejemplo de cómo cifrar datos evitando así el versionado en Git de
-datos sensibles.
+Además, se proporcionará un ejemplo de cómo cifrar datos evitando así el
+versionado en Git de datos sensibles.

@@ -1,0 +1,14 @@
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:  #005198;
+  --md-default-fg-color--light: #005198;
+  --md-typeset-a-color:   rgb(0, 140, 63);
+  --md-accent-fg-color:   #005198;
+  --md-footer-bg-color:   rgb(0, 140, 63);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:  #6ca0e8;
+  --md-default-fg-color--light: #6ca0e8;
+  --md-typeset-a-color:   rgb(0, 140, 63);
+  --md-accent-fg-color:  #6ca0e8;
+}

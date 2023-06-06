@@ -1,11 +1,11 @@
 # Datos sensibles
 
-Es crucial, al trabajar con GitOps, abordar adecuadamente el versionado de datos que son
-inherentemente sensibles. Como es de imaginar, versionar estos datos en Git
-representa
-un **antipatrón**. Por tanto, mencionaremos aquí una serie de herramientas que
-nos permiten trabajar con datos cifrados, evitando versionar en texto claro este
-tipo de información. Las herramientas más conocidas para el cifrado incluyen:
+Es crucial, al trabajar con GitOps, abordar adecuadamente el versionado de datos
+que son inherentemente sensibles. Como es de imaginar, versionar estos datos en
+Git representa un **antipatrón**. Por tanto, mencionaremos aquí una serie de
+herramientas que nos permiten trabajar con datos cifrados, evitando versionar en
+texto claro este tipo de información. Las herramientas más conocidas para el
+cifrado incluyen:
 
 * [Helm secrets](https://github.com/jkroepke/helm-secrets)
 * [Sealed secrets](https://github.com/bitnami-labs/sealed-secrets)

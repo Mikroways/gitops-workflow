@@ -4,8 +4,10 @@ Los términos patrón y antipatrón son comúnmente utilizados en el ámbito del
 de software, especialmente en el paradigma orientada a objetos. Su significado nos
 permite aplicarlos de la misma manera en éste marco de trabajo:
 
-* Un **patrón** es una solución que se puede reutilizar para resolver problemas comunes.
-* Por su parte, un **antipatrón** es una solución que al aplicarla nos lleva a una solución ineficiente o incorrecta de un problema determinado.
+* Un **patrón** es una solución que se puede reutilizar para resolver problemas
+  comunes.
+* Por su parte, un **antipatrón** es una solución que al aplicarla nos lleva a
+  una solución ineficiente o incorrecta de un problema determinado.
 
 Según las herramientas descriptas en la [introducción](../index.md),
 identificamos problemas habituales con:

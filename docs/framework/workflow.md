@@ -1,6 +1,5 @@
 # El flujo de trabajo
 
-
 El siguiente gráfico muestra todas las componentes que intervienen en el flujo,
 así como además sus interacciones.
 

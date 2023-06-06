@@ -1,6 +1,5 @@
 # Versionado de valores
 
-
 ## ¿Cómo versionar los valores de una aplicación en diferentes ambientes?
 
 La gran incógnita que surge con el uso de ArgoCD, es sobre cómo
@@ -10,15 +9,15 @@ las configuraciones específicas de cada uno de ellos. Claro está que
 deseamos aplicar el [décimo punto de los 12 factores](https://12factor.net/dev-prod-parity),
 de igualdad entre ambientes. Para esto, la elección de la herramienta de
 despliegue debe permitirnos reutilizar código de base y especificar las
-diferencias en cada ambiente. 
+diferencias en cada ambiente.
 
 En términos de facilitar el despliege de componentes, existen herramientas que
 nos permiten simplificar y automatizar este proceso, como Helm y Kustomize.
 Por su parte [Helm](https://helm.sh) se describe como un manejador de paquetes,
 pero funciona como un lenguaje de templating, reemplazando valores parametrizables.
-Por otro lado, existe [kustomize](https://kustomize.io/), que se define como un manejador de
-configuraciones libre de templates, donde las mismas se aplican a través del
-agregado, modificación o eliminación de código. 
+Por otro lado, existe [kustomize](https://kustomize.io/), que se define como un
+manejador de configuraciones libre de templates, donde las mismas se aplican a
+través del agregado, modificación o eliminación de código.
 En este apartado analizamos las posibilidades de la integración de Helm con
 ArgoCD como paso integral en el flujo de Gitops.
 
@@ -33,11 +32,11 @@ Un chart empaqueta una o varias componentes que hacen funcional una aplicación.
 Por ello, los charts simplifican el despliegue de componentes en un ambiente.
 Analizando el concepto de ambiente y despliegue en relación al chart,
 debemos aclarar que un despliegue de un chart no solamente representa un
-ambiente, sino que además puede representar diferentes tenants o dueños. Por ejemplo, el
-chart de wordpress puede representar el sitio de la empresa Acme, y tener tres
-ambientes: producción, QA y testing. Además, ese mismo chart puede usarse para
-desplegar el sitio de la empresa Ejemplo, y tener dos ambientes: producción y
-testing. Y así, ad infinitum.
+ambiente, sino que además puede representar diferentes tenants o dueños. Por
+ejemplo, el chart de wordpress puede representar el sitio de la empresa Acme, y
+tener tres ambientes: producción, QA y testing. Además, ese mismo chart puede
+usarse para desplegar el sitio de la empresa Ejemplo, y tener dos ambientes:
+producción y testing. Y así, ad infinitum.
 
 En definitiva, el propósito de un chart es el de reutilizar código a través de la
 inyección de valores, hidratando manifiestos con valores que dan identidad a un
@@ -99,9 +98,9 @@ Ahora analizaremos algunos aspectos de este escenario:
 
 * No estamos utilizando el artefacto desde un repositorio de charts, sino
   directamente desde git (10).
-    * El chart se encuentra en la rama HEAD (11), dentro de la carpeta
+  * El chart se encuentra en la rama HEAD (11), dentro de la carpeta
       `charts/my-custom-app` (9).
-    * El valor para este ambiente se toma de `env-values/testing.yaml` relativo al
+  * El valor para este ambiente se toma de `env-values/testing.yaml` relativo al
       chart (14).
 * Puede que un chart tenga muchos más usos que los ambientes de despliegue
   (como en el ejemplo de wordpress).
@@ -155,7 +154,6 @@ respetando la filosofía GitOps. Por esto consideramos esta práctica como un
 
 ### Un repositorio por ambiente
 
-
 Aquí la idea radica en crear un repositorio para cada ambiente, de forma que
 **los valores de cada ambiente se versionen de forma independiente.**
 Esto facilita la gestión y el mantenimiento de las diferentes versiones de los
@@ -174,7 +172,7 @@ En este escenario, las aplicaciones ArgoCD ya implementan en su esencia una
 estrategia mas pura respecto de GitOps, dado que podemos fijar una versión de
 chart y utilizar diferentes repositorios git para hidratar sus manifiestos.
 De esta manera, se puede tener un repositorio para el chart de Helm y un
-repositorio separado para los valores de configuración de ambientes. 
+repositorio separado para los valores de configuración de ambientes.
 Esto permite una mayor flexibilidad y un mejor control de versiones.
 El siguiente ejemplo, muestra una aplicación de estas características:
 
@@ -193,11 +191,13 @@ spec:
     targetRevision: dev
     ref: values
 ```
+
 Notar en el manifiesto, la `repoURL` con el archivo de valores versionado, y un
 `targetRevision` que hace referencia al ambiente 'dev'. El targetRevision puede
 referenciar una tag, una rama o un commit de Git.
 
-Esta práctica es una excelente práctica y por ello, la consideramos un **patrón de gitops**.
+Esta práctica es una excelente práctica y por ello, la consideramos un **patrón
+de gitops**.
 
 #### Versiones de ArgoCD previas a la 2.6
 
@@ -237,6 +237,7 @@ Luego, resta modificar los siguientes archivos:
         version: 0.1.*
         repository: https://mikroways.github.io/demo-app
     ```
+
     > Notar que usamos como versión 0.1.*, aliviando el patch number del Chart
     > del que dependemos.
 
@@ -246,6 +247,7 @@ Luego, resta modificar los siguientes archivos:
     demo-app:
       message: "Hello from production environment"
     ```
+
   > Observar que los valores se deben poner bajo el nombre de la dependencia, en
   > este caso **demo-app**. Pueden usarse **alias en las dependencias**.
 
@@ -255,10 +257,11 @@ Luego, resta modificar los siguientes archivos:
   exponerse en git.
 * Agregar un `.gitignore` para no versionar los siguientes archivos:
 
-    ```
+    ```bash
     Chart.lock
     charts/
     ```
+
     > De esta forma podemos librar a ArgoCD de no seguir el lock versionado y
     > que las dependencias se descarguen cuando surje un nuevo chart respecto
     > del wildcard usado.
@@ -278,15 +281,14 @@ funcionan las registries OCI. El login a una registry OCI se hace a un host,
 al host de la registry, y nada importa la URL completa. Por ejemplo, si tenemos
 las siguientes URLS:
 
-1. https://registry.example.net/mikroways/project-a/charts
-1. https://registry.example.net/mikroways/project-b/charts
+1. <https://registry.example.net/mikroways/project-a/charts>
+1. <https://registry.example.net/mikroways/project-b/charts>
 
 Debemos ser consientes que si se hace el login a la URL 1 o la 2, en realidad
-estamos realizando el login a https://registry.example.net. Algunas registries,
+estamos realizando el login a <https://registry.example.net>. Algunas registries,
 por ejemplo la de Gitlab, permiten definir diferentes tokens de acceso para las
 diferentes URLs 1 y 2. Luego si usamos el token de 1 en 2, tendremos un error.
 Lo mismo al revés.
-
 
 ArgoCD gestiona entonces el acceso a repositorios o registries por medio de
 credenciales. Las credenciales para una registry OCI se dará de alta al igual

@@ -14,7 +14,7 @@ marco, permitiendo replicar una implementación pura de GitOps de forma segura.
 
 ## Qué es GitOps
 
-El término GitOps, surge en el año 2017 como __buzzy word__ gracias a
+El término GitOps, surge en el año 2017 como **buzzy word** gracias a
 [WaveWorks](https://www.weave.works/). En su blog, existe un post muy claro
 acerca de la [historia de
 GitOps](https://www.weave.works/blog/the-history-of-gitops).
@@ -34,8 +34,8 @@ Lo que podemos afirmar acerca de GitOps es:
 * Sin embargo, donde mejor aplica GitOps es cuando se utilizan lenguajes
   declarativos para impactar en la infraestrctura (Infraestructura como Datos).
   Este es el caso de Kubernetes, dado que los manifiestos son una representación
-  de la intención. Luego el cluster llevará al estado deseado la infraestructura a
-  través de controladores que convergen al satisfacer los manifiestos.
+  de la intención. Luego el cluster llevará al estado deseado la infraestructura
+  a través de controladores que convergen al satisfacer los manifiestos.
 
 ## Alcance
 
@@ -92,8 +92,9 @@ Simplifican el proceso de despliegue de aplicaciones complejas.
 
 El marco de trabajo no explicará como usar las herramientas dado que cada una
 tiene una documentación clara y con ejemplos propios. Nuestro aporte es el de
-ejemplificar cómo es la integración de ellas, como así también la de enunciar 
-[(anti) patrones](./patterns) detectados y documentar qué solución ofrecemos en cada caso.
+ejemplificar cómo es la integración de ellas, como así también la de enunciar
+[(anti) patrones](./patterns) detectados y documentar qué solución ofrecemos en
+cada caso.
 
 ## ¿Qué ofrece el marco de trabajo con GitOps?
 
@@ -103,14 +104,14 @@ ejemplificar cómo es la integración de ellas, como así también la de enuncia
 distintas.
 * Permite identificar como implementar, con ejemplos, distintas etapas del
   proceso de despliegue, como por ejemplo:
-    * Crear ambientes de forma declarativa.
-    * Crear un proyecto en ArgoCD exclusivo para el ambiente donde se acotan los
+  * Crear ambientes de forma declarativa.
+  * Crear un proyecto en ArgoCD exclusivo para el ambiente donde se acotan los
       permisos usando [RBAC](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/).
-    * Considerar el despliegue de aquellas componentes que se consideran
-      requerimientos para nuestro ambiente, usando herramientas de GitOps. Esto significa, poder
-      disponer de una serie de componentes listos para que nuestro ambiente los
-      utilice al momento de desplegar sus componentes.
-    * El despliegue de aplicaciones usando GitOps, considerando las
+  * Considerar el despliegue de aquellas componentes que se consideran
+    requerimientos para nuestro ambiente, usando herramientas de GitOps. Esto
+    significa, poder disponer de una serie de componentes listos para que nuestro
+    ambiente los utilice al momento de desplegar sus componentes.
+  * El despliegue de aplicaciones usando GitOps, considerando las
       componentes propias del mismo, asumiendo que existen y se cumplen
       los requisitos que eventualmente son necesasios.
 * Soporte de Multicluster.

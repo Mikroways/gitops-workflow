@@ -11,8 +11,8 @@ que un ambiente considerará:
 * En el namespace se desplegará una solución de software que no se corresponde
   con una única aplicación sino con varias aplicaciones que deben interactuar
   entre sí:
-    * Cada aplicación tendrá un chart propio e independiente del resto.
-    * Algunos charts desplegarán requerimientos que deben estar disponibles
+  * Cada aplicación tendrá un chart propio e independiente del resto.
+  * Algunos charts desplegarán requerimientos que deben estar disponibles
       previo al despliegue de nuestras componentes.
 
 Pero entonces, un ambiente sigue siendo un conjunto de manifiestos, y por lo tanto
@@ -24,16 +24,16 @@ importante expresar y considerar:
 * La creación de un nuevo ambiente es reponsabilidad de un rol diferencial.
   Seguramente sea el área de operaciones, pero no debe ser el mismo rol que
   podrá gestionar los despliegues del ambiente.
-   * Este rol además, en ambientes multicluster, debe determinar en cuál de los
+  * Este rol además, en ambientes multicluster, debe determinar en cuál de los
      clusters se desplegará.
 * Los recursos asignados a un ambiente se discuten entre varios roles:
   operaciones, arquitectura, desarrollo y seguridad. Estos recursos deben
   considerar:
-    * Las necesidades de memoria y CPU para el adecuado funcionamiento.
-    * La escalabilidad mínima y máxima de cada carga de trabajo.
-    * El upgrade, que demandará por un momento un aumento de los recursos que se
+  * Las necesidades de memoria y CPU para el adecuado funcionamiento.
+  * La escalabilidad mínima y máxima de cada carga de trabajo.
+  * El upgrade, que demandará por un momento un aumento de los recursos que se
       suelen emplear.
-    * Cantidad de storage necesario.
+  * Cantidad de storage necesario.
 * Desde la perspectiva de seguridad, tanto personal de ese área, como desarrollo
   y operaciones deberán considerar qué Network Policies deben aplicarse al
   ambiente, tanto para el egreso, como ingreso de tráfico.
@@ -56,11 +56,13 @@ cluster:
   el despliegue.
 * [**Limit Ranges**](https://kubernetes.io/docs/concepts/policy/limit-range/):
   con esta política, aquellos contenedores que no establecen cuántos recursos
-  requieren o limitan en sus propios manifiestos, heredaran los limites establecidos en el namespace. Estos contenedores serán modificados al ser creados en el namespace
-  asociándoles una cantidad establecida de requerimiento y límites de CPU y
-  memoria. Al combinar Limit Ranges con Resource Quotas podemos establecer un
-  equilibrio saludable para la ejecución de cargas de trabajo en cualquier
-  cluster. Por esta razón consideramos esta política un **patrón recomendable**.
+  requieren o limitan en sus propios manifiestos, heredaran los limites
+  establecidos en el namespace. Estos contenedores serán modificados al ser
+  creados en el namespace asociándoles una cantidad establecida de requerimiento
+  y límites de CPU y memoria. Al combinar Limit Ranges con Resource Quotas
+  podemos establecer un equilibrio saludable para la ejecución de cargas de
+  trabajo en cualquier cluster. Por esta razón consideramos esta política un
+  **patrón recomendable**.
 
 En aquellos clusters con un
 [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)

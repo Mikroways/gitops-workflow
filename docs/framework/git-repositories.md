@@ -62,7 +62,6 @@ applicationsets:
 ```
 
 > Este fuente puede verse en [este enlace](https://github.com/Mikroways/argo-gitops-demo-example/blob/main/kind/helmfile.d/values/argocd-apps/values.yaml.tpl)
-    
 
 Donde `GH_REPO_URL` y `GH_REVISION` deben reemplazarse con los valores
 adecuados. En este ejemplo, podemos ver que el generador basado en Git barrerá
@@ -92,10 +91,10 @@ anterior, se encargará de:
 * Crear una aplicación ArgoCD base para el proyecto en cuestión. Esto se realiza
   con otro chart provisto por Mikroways llamado [**argo-base-app**](https://github.com/Mikroways/argo-gitops-flow/tree/main/charts/argo-base-app).
   Será el encargado de otras tareas:
-    * Crear el namespace en un cluster determinado.
-    * Crear opcionalmente uno o más secretos para ser usados como
+  * Crear el namespace en un cluster determinado.
+  * Crear opcionalmente uno o más secretos para ser usados como
       imagePullSecrets.
-    * Aplicar políticas del namespace opcionales y NetworkPolicy.
+  * Aplicar políticas del namespace opcionales y NetworkPolicy.
 * Crear una aplicación ArgoCD que despliegue los requerimientos de backing
   services.
 * Crear una aplicación ArgoCD que despliegue la aplicación propiamente dicha.

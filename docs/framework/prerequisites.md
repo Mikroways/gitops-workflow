@@ -8,15 +8,15 @@ aplicaciones a ser desplegadas cumplan la mayoría de los siguientes puntos:
   código debe proveerse un Helm Chart considerando los [patrones para el
   desarrollo de Helm Charts](../../patterns/helm/).
 * Utilizar CI/CD que automaticen la publicación de:
-    * Imágenes de contenedores en una registry OCI
-    * Helm Chart en un repositorio de Charts o una registry OCI, considerando
+  * Imágenes de contenedores en una registry OCI
+  * Helm Chart en un repositorio de Charts o una registry OCI, considerando
       los problemas que conlleva el [uso de registries](/patterns/argocd/versionado-valores/#problemas-de-argocd-usando-helm-charts-en-registries-oci).
 de charts o una registry OCI (puede ser cualquiera de los mencionados en el
 punto anterior).
 * Definir access tokens, service accounts o robot accounts para el acceso desde:
-    * ArgoCD a repositorios Git.
-    * ArgoCD a repositorios o registries OCI de Helm Charts.
-    * El namespace de un cluster kubernetes a registries de contenedores para
+  * ArgoCD a repositorios Git.
+  * ArgoCD a repositorios o registries OCI de Helm Charts.
+  * El namespace de un cluster kubernetes a registries de contenedores para
       ser usadas como imagePullSecrets.
 * Adoptar una estrategia de cifrado de datos asimétrico.
 

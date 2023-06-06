@@ -10,15 +10,16 @@ cuál es el mejor enfoque que hemos encontrado para abordar determinadas
 situaciones. Estas son:
 
 * [Mantener un único chart por aplicación, o un chart que despliega varias
-  aplicaciones](./chart-vs-charts.md). La pregunta apunta a si conviene desarrollar un chart que
-  despliegue por ejemplo un backend y un frontend, o mejor tener un chart para el
-  backend y otro para el frontend.
+  aplicaciones](./chart-vs-charts.md). La pregunta apunta a si conviene
+  desarrollar un chart que despliegue por ejemplo un backend y un frontend, o
+  mejor tener un chart para el backend y otro para el frontend.
 * [Analizar en qué momento conviene ejecutar migraciones de esquemas de bases de
-  datos](./schema-migrations.md). La disyuntiva surge en si utilizar initContainers para aplicar
-  parches a una base de datos es correcto, o mejor es emplear otra estrategia.
-* [Cómo manejar los requerimientos de un chart](./requirements.md). Desplegar un chart puede
-  requerir algunos objetos sean creados con antelación, por ejemplo el uso de 
-  secretos necesarios como imagePullSecret.
+    datos](./schema-migrations.md). La disyuntiva surge en si utilizar
+  initContainers para aplicar parches a una base de datos es correcto, o mejor es
+  emplear otra estrategia.
+* [Cómo manejar los requerimientos de un chart](./requirements.md). Desplegar un
+  chart puede requerir algunos objetos sean creados con antelación, por ejemplo
+  el uso de secretos necesarios como imagePullSecret.
 
 Hay un tema que es importante mencionar relacionado a la publicación de Helm
 Charts en registries OCI. El problema se menciona en la sección donde proponemos
