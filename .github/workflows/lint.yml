@@ -2,9 +2,10 @@ name: Lint Handbook
 
 on:
   push:
-    branches-ignore: [main]
+    - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   markdown-lint:
