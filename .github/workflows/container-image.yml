@@ -17,6 +17,10 @@ jobs:
       packages: write
 
     steps:
+    - id: image_name
+      uses: ASzc/change-string-case-action@v5
+      with:
+        string: ${{ env.IMAGE_NAME }}
     - name: Checkout repo
       uses: actions/checkout@v3
       with:
@@ -25,8 +29,10 @@ jobs:
     - name: Build container image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        image: ${{ env.REGISTRY }}/${{ steps.image_name.outputs.lowercase }}
         tags: ${{ github.sha }}
+         containerfiles: |
+          ./Containerfile
 
     - name: Push to ghcr.io
       id: push-to-ghcr
