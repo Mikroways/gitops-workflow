@@ -1,6 +1,9 @@
 site_name: Marco de trabajo con GitOps
 theme:
+  name: material
+  language: es
   logo: assets/logo.png
+  favicon: assets/favicon.png
   font:
     text: Open Sans
     code: Roboto Mono
@@ -19,12 +22,11 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Modo claro
-  name: material
-  language: es
 extra_css:
   - stylesheets/mikroways.css
 plugins:
   - glightbox
+  - search
   - i18n:
       default_language: es
       languages:
@@ -59,3 +61,4 @@ nav:
     - framework/prerequisites.md
     - framework/git-repositories.md
     - framework/workflow.md
+  - Salir: /logout
