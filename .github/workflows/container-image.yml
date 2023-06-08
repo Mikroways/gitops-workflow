@@ -52,3 +52,9 @@ jobs:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up kubeconfig
+      run: echo "${{ secrets.KUBECONFIG }}" > ./kubeconfig
+
+    - name: Helm Deploy
+      run: helm upgrade --install handbook ./charts/gitops-workflow -n gitops-workflow -f .github/deploy/values.yaml --set image.tag=${{ github.sha }} --kubeconfig ${{ env.KUBECONFIG }}
