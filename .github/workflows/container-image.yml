@@ -58,4 +58,4 @@ jobs:
       run: echo "${{ secrets.KUBECONFIG }}" > ${{ env.KUBECONFIG }}
 
     - name: Helm Deploy
-      run: helm upgrade --install handbook ./charts/gitops-workflow -n gitops-workflow -f .github/deploy/values.yaml --set image.tag=${{ github.sha }} --kubeconfig ${{ env.KUBECONFIG }}
+      run: helm upgrade --install gitops-workflow ./charts/gitops-workflow -n gitops-workflow -f .github/deploy/values.yaml --set image.tag=${{ github.sha }} --kubeconfig ${{ env.KUBECONFIG }}
