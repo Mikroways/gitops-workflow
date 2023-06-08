@@ -9,6 +9,8 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}/nginx
 
+env:
+  KUBECONFIG: ./kubeconfig
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -54,7 +56,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up kubeconfig
-      run: echo "${{ secrets.KUBECONFIG }}" > ./kubeconfig
+      run: echo "${{ secrets.KUBECONFIG }}" > ${{ env.KUBECONFIG }}
 
     - name: Helm Deploy
       run: helm upgrade --install handbook ./charts/gitops-workflow -n gitops-workflow -f .github/deploy/values.yaml --set image.tag=${{ github.sha }} --kubeconfig ${{ env.KUBECONFIG }}
