@@ -65,6 +65,7 @@ nav:
     - framework/prerequisites.md
     - framework/git-repositories.md
     - framework/workflow.md
+  - Ejemplos: examples/index.md
 # No es necesario si no hay login. Esto depende de cuando se ponga la guarda de
 # acceso al sitio
 #  - Salir: /logout
