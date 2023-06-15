@@ -65,4 +65,6 @@ nav:
     - framework/prerequisites.md
     - framework/git-repositories.md
     - framework/workflow.md
-  - Salir: /logout
+# No es necesario si no hay login. Esto depende de cuando se ponga la guarda de
+# acceso al sitio
+#  - Salir: /logout
