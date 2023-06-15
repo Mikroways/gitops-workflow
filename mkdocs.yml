@@ -1,9 +1,12 @@
 site_name: Marco de trabajo con GitOps
+repo_url: https://github.com/Mikroways/gitops-workflow
 theme:
   name: material
   language: es
   logo: assets/logo.png
   favicon: assets/favicon.png
+  icon:
+    repo: fontawesome/brands/github
   font:
     text: Open Sans
     code: Roboto Mono
