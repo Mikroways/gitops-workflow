@@ -6,5 +6,6 @@ COPY . /app
 RUN mkdocs build -d static/
 
 FROM ghcr.io/nginxinc/nginx-unprivileged:1.25-alpine
+WORKDIR /usr/share/nginx/html
 COPY container/nginx-default.conf /etc/nginx/conf.d/default.conf
 COPY --from=mkdocs --chown=nginx:root /app/static /usr/share/nginx/html

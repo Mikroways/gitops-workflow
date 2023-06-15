@@ -22,6 +22,10 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Modo claro
+extra:
+  analytics:
+    provider: google
+    property: G-5V24G9S65S
 extra_css:
   - stylesheets/mikroways.css
 plugins:
