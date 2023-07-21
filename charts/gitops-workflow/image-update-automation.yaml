@@ -1,0 +1,45 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: gitops-workflow
+  namespace: gitops-workflow
+  labels:
+    app: gitops-workflow
+spec:
+  interval: 15m
+  sourceRef:
+    kind: GitRepository
+    name: gitops-workflow
+  git:
+    checkout:
+      ref:
+        branch: test
+    push:
+      branch: flux-image-updates
+    commit:
+      messageTemplate: |
+        Automated image update
+
+        Automation name: {{ .AutomationObject }}
+
+        Files:
+        {{ range $filename, $_ := .Updated.Files -}}
+        - {{ $filename }}
+        {{ end -}}
+
+        Objects:
+        {{ range $resource, $_ := .Updated.Objects -}}
+        - {{ $resource.Kind }} {{ $resource.Name }}
+        {{ end -}}
+
+        Images:
+        {{ range .Updated.Images -}}
+        - {{.}}
+        {{ end -}}
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+  update:
+    path: ./charts/gitops-workflow/charts
+    strategy: Setters

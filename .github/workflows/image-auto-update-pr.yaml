@@ -1,0 +1,28 @@
+name: Update Image Ref Auto-PR
+
+on:
+  create:
+    branches: ['flux-image-updates']
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  pull-request:
+    name: Open PR to test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      name: checkout
+      with:
+        ref: "flux-image-updates"
+
+    - uses: repo-sync/pull-request@v2
+      name: pull-request
+      with:
+        destination_branch: "test"
+        pr_title: "Pulling ${{ github.ref }} into test"
+        pr_body: "👑 *An automated PR*"
+        pr_reviewer: "ari1807"
+        github_token: ${{ secrets.GITHUB_TOKEN }}

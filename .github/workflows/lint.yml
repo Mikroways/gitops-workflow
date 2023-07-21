@@ -3,7 +3,7 @@ name: Lint Handbook
 on:
   pull_request:
     branches:
-      - main
+      - test
 
 jobs:
   markdown-lint:

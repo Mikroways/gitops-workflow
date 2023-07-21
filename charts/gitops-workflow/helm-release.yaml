@@ -1,0 +1,25 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gitops-workflow
+  namespace: gitops-workflow
+  labels:
+    app: gitops-workflow
+spec:
+  interval: 15m
+  chart:
+    metadata:
+      labels:
+        app: gitops-workflow
+    spec:
+      chart: charts/gitops-workflow/charts
+      version: '0.0.0'
+      sourceRef:
+        kind: GitRepository
+        name: gitops-workflow
+        namespace: gitops-workflow
+      interval: 15m
+  valuesFrom:
+    - kind: ConfigMap
+      name: gitops-workflow-values

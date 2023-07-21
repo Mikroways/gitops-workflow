@@ -2,9 +2,9 @@ name: Container Image
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [test]
+    paths-ignore:
+      - 'charts/**'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}/nginx
@@ -36,12 +36,22 @@ jobs:
         VALIDATE_ALL_CODEBASE: false
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: create SHORT_SHA env variable
+      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+    - name: Get Time
+      id: time
+      uses: nanzm/get-time-action@master
+      with:
+        timeZone: UTC-3
+        format: 'YYYYMMDDHHmmss'
+
     - name: Build container image
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
         image: ${{ env.REGISTRY }}/${{ steps.image_name.outputs.lowercase }}
-        tags: ${{ github.sha }}
+        tags: test-${{ env.SHORT_SHA }}-${{ steps.time.outputs.time }}
         containerfiles: ./Containerfile
 
     - name: Push to ghcr.io
@@ -54,8 +64,3 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set up kubeconfig
-      run: echo "${{ secrets.KUBECONFIG }}" > ${{ env.KUBECONFIG }}
-
-    - name: Helm Deploy
-      run: helm upgrade --install gitops-workflow ./charts/gitops-workflow -n gitops-workflow -f .github/deploy/values.yaml --set image.tag=${{ github.sha }} --kubeconfig ${{ env.KUBECONFIG }}
