@@ -1,4 +1,4 @@
-name: Container Image
+name: Container Image Test
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
       uses: redhat-actions/buildah-build@v2
       with:
         image: ${{ env.REGISTRY }}/${{ steps.image_name.outputs.lowercase }}
-        tags: test-${{ env.SHORT_SHA }}-${{ steps.time.outputs.time }}
+        tags: ${{ github.ref_name }}-${{ env.SHORT_SHA }}-${{ steps.time.outputs.time }}
         containerfiles: ./Containerfile
 
     - name: Push to ghcr.io

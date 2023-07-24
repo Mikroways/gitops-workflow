@@ -1,7 +1,7 @@
 name: Update Image Ref Auto-PR
 
 on:
-  create:
+  push:
     branches: ['flux-image-updates']
 
 permissions:
