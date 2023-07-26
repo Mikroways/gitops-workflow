@@ -24,7 +24,7 @@ ingress:
             #       - gitops-workflow.mikroways.net
 
 image:
-  tag: "latest" # {"$imagepolicy": "gitops-workflow:gitops-workflow:tag"}
+  tag: "test-f7c7ad49-20230724182427" # {"$imagepolicy": "gitops-workflow:gitops-workflow:tag"}
 
 
 resources:
