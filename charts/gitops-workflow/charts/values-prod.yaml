@@ -11,17 +11,17 @@ ingress:
    # nginx.ingress.kubernetes.io/auth-url: "https://auth-external.mikroways.net/oauth2/auth"
    # nginx.ingress.kubernetes.io/auth-signin: "https://auth-external.mikroways.net/oauth2/start"
    # On /logout redirect to oauth2-proxy logout and call idp logout
-   # nginx.ingress.kubernetes.io/server-snippet: |
-   # rewrite ^/logout https://auth-external.mikroways.net/oauth2/sign_out?rd=https%3A%2F%2Fidp.mikroways.net%2Fauth%2Frealms%2Fexternos%2Fprotocol%2Fopenid-connect%2Flogout%3Fredirect_uri%3Dhttps%3A%2F%2Fwww.mikroways.net redirect;
+    nginx.ingress.kubernetes.io/server-snippet: |
+      rewrite ^/logout https://auth-external.mikroways.net/oauth2/sign_out?rd=https%3A%2F%2Fidp.mikroways.net%2Fauth%2Frealms%2Fexternos%2Fprotocol%2Fopenid-connect%2Flogout%3Fredirect_uri%3Dhttps%3A%2F%2Fwww.mikroways.net redirect;
   hosts:
-    - host: gitops-workflow.example.com #gitops-workflow.mikroways.net
+    - host: gitops-workflow.testing.mikroways.net
       paths:
         - path: /
           pathType: ImplementationSpecific
-            #  tls:
-            #   - secretName: gitops-workflow-tls
-            #    hosts:
-            #       - gitops-workflow.mikroways.net
+  tls:
+    - secretName: gitops-workflow-tls
+      hosts:
+        - gitops-workflow.testing.mikroways.net
 
 image:
   tag: "test-f7c7ad49-20230724182427" # {"$imagepolicy": "gitops-workflow:gitops-workflow:tag"}
