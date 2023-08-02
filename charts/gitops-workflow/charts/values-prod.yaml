@@ -6,7 +6,7 @@ ingress:
   ingressClassName: nginx
   annotations:
     kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: acme-test
+    cert-manager.io/cluster-issuer: acme-staging
    # En algun momento sera privado. Por el momento publico
    # nginx.ingress.kubernetes.io/auth-url: "https://auth-external.mikroways.net/oauth2/auth"
    # nginx.ingress.kubernetes.io/auth-signin: "https://auth-external.mikroways.net/oauth2/start"
