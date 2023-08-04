@@ -33,3 +33,10 @@ resources:
    requests:
      cpu: 100m
      memory: 128Mi
+
+tolerations:
+  - key: "environment"
+    operator: "Equal"
+    value: "production"
+    effect: "NoSchedule"
+ 
