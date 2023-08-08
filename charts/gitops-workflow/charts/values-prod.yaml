@@ -34,6 +34,17 @@ resources:
      cpu: 100m
      memory: 128Mi
 
+affinity: 
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: environment
+          operator: In
+          values:
+          - mw-prod
+
+
 tolerations:
   - key: "environment"
     operator: "Equal"
