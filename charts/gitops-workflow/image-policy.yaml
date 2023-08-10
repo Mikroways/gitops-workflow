@@ -10,7 +10,7 @@ spec:
   imageRepositoryRef:
     name: gitops-workflow
   filterTags:
-    pattern: '^test-[a-fA-F0-9]+-(?P<ts>.*)'
+    pattern: '^main-[a-fA-F0-9]+-(?P<ts>.*)'
     extract: '$ts'
   policy:
     numerical:

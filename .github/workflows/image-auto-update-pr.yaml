@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   pull-request:
-    name: Open PR to test
+    name: Open PR to main
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -21,8 +21,8 @@ jobs:
     - uses: repo-sync/pull-request@v2
       name: pull-request
       with:
-        destination_branch: "test"
-        pr_title: "Pulling ${{ github.ref }} into test"
+        destination_branch: "main"
+        pr_title: "Pulling ${{ github.ref }} into main"
         pr_body: "👑 *An automated PR*"
-        pr_reviewer: "ari1807"
+        pr_reviewer: "chrodriguez"
         github_token: ${{ secrets.GITHUB_TOKEN }}

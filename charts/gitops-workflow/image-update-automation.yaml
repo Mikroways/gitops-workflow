@@ -14,7 +14,7 @@ spec:
   git:
     checkout:
       ref:
-        branch: test
+        branch: main
     push:
       branch: flux-image-updates
     commit:
