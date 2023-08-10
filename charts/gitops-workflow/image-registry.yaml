@@ -1,0 +1,13 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: gitops-workflow
+  namespace: gitops-workflow
+  labels:
+    app: gitops-workflow
+spec:
+  image: ghcr.io/mikroways/gitopsworkflow/nginx
+  interval: 15m
+  secretRef:
+    name: gh-registry-credential

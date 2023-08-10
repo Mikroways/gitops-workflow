@@ -1,0 +1,49 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: gitops-workflow-receiver
+  namespace: gitops-workflow
+spec:
+  type: github
+  secretRef:
+    name: gitops-webhook-token
+  events:
+    - "push"
+    - "ping"
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: '*'
+      matchLabels:
+        app: gitops-workflow
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      name: '*'
+      matchLabels:
+        app: gitops-workflow
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: '*'
+      matchLabels:
+        app: gitops-workflow
+    - apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmChart
+      name: '*'
+      matchLabels:
+        app: gitops-workflow
+    - apiVersion: image.toolkit.fluxcd.io/v1beta2
+      kind: ImageRepository
+      name: '*'
+      matchLabels:
+        app: gitops-workflow
+    - apiVersion: image.toolkit.fluxcd.io/v1beta2
+      kind: ImagePolicy
+      name: '*'
+      matchLabels:
+        app: gitops-workflow
+    - apiVersion: image.toolkit.fluxcd.io/v1beta1
+      kind: ImageUpdateAutomation
+      name: '*'
+      matchLabels:
+        app: gitops-workflow

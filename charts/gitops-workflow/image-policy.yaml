@@ -1,0 +1,17 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: gitops-workflow
+  namespace: gitops-workflow
+  labels:
+    app: gitops-workflow
+spec:
+  imageRepositoryRef:
+    name: gitops-workflow
+  filterTags:
+    pattern: '^main-[a-fA-F0-9]+-(?P<ts>.*)'
+    extract: '$ts'
+  policy:
+    numerical:
+      order: asc
