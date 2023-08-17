@@ -2,9 +2,8 @@ imagePullSecrets:
   - name: gh-registry-credential
 ingress:
   enabled: true
-  ingressClassName: nginx
+  className: nginx
   annotations:
-    kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: acme-prod
     # En algun momento sera privado. Por el momento publico
     # nginx.ingress.kubernetes.io/auth-url: "https://auth-external.mikroways.net/oauth2/auth"
