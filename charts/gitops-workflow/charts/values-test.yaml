@@ -1,0 +1,15 @@
+imagePullSecrets:
+  - name: gh-registry-credential
+image:
+  tag: "main-f92ada05-20230810191006" # {"$imagepolicy": "gitops-workflow:gitops-workflow:tag"}
+resources:
+  limits:
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+tolerations:
+  - key: "environment"
+    operator: "Equal"
+    value: "production"
+    effect: "NoSchedule"
