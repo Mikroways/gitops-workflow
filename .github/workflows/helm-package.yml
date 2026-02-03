@@ -1,25 +1,52 @@
-name: Lint Handbook
+name: Package and Publish Helm Chart
 
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    branches: [master, feature/helm-package]
+    paths:
+      - 'charts/gitops-workflow/charts/**'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  CHART_PATH: charts/gitops-workflow/charts
+  IMAGE_NAME: ${{ github.repository }}/charts
 
 jobs:
-  markdown-lint:
+  package-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-      - name: Check out
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Lint markdown
-        uses: super-linter/super-linter/slim@v5
-        env:
-          VALIDATE_MD: true
-          DEFAULT_BRANCH: main
-          MARKDOWN_CONFIG_FILE: markdownlint.yml
-          VALIDATE_ALL_CODEBASE: false
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: 'v3.13.0'
+
+    - name: Log in to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ${{ env.REGISTRY }} --username ${{ github.actor }} --password-stdin
+
+    - name: Extract chart version
+      id: chart_version
+      run: |
+        CHART_VERSION=$(grep '^version:' ${{ env.CHART_PATH }}/Chart.yaml | awk '{print $2}')
+        OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+        echo "version=${CHART_VERSION}" >> $GITHUB_OUTPUT
+        echo "owner=${OWNER_LC}" >> $GITHUB_OUTPUT
+
+    - name: Build chart dependencies
+      run: |
+        helm dependency build ${{ env.CHART_PATH }}
+
+    - name: Package Helm chart
+      run: |
+        helm package ${{ env.CHART_PATH }} --destination .
+
+    - name: Push chart to OCI registry
+      run: |
+        helm push gitops-workflow-${{ steps.chart_version.outputs.version }}.tgz oci://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
