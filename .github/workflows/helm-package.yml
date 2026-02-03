@@ -10,7 +10,6 @@ on:
 env:
   REGISTRY: ghcr.io
   CHART_PATH: charts/gitops-workflow/charts
-  IMAGE_NAME: ${{ github.repository }}/charts
 
 jobs:
   package-and-publish:
@@ -49,4 +48,4 @@ jobs:
 
     - name: Push chart to OCI registry
       run: |
-        helm push gitops-workflow-${{ steps.chart_version.outputs.version }}.tgz oci://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        helm push gitops-workflow-${{ steps.chart_version.outputs.version }}.tgz oci://${{ env.REGISTRY }}/${{ steps.chart_version.outputs.owner }}
